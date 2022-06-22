@@ -2,7 +2,7 @@
 
 sudo apt update
 
-### Not work in Russian:
+### Not work in Russia:
 sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 sudo systemctl enable mongod
