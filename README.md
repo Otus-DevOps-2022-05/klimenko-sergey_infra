@@ -10,5 +10,5 @@ testapp_port = 9292
 #Startup script for VM with Monolith Reddit
 sh reddit-app2.sh
 
-# Packer
-# Create template in format JSON. Create from template VM in Yandex Cloud.
+#Packer
+#Create template in format JSON. Create from template VM in Yandex Cloud.
