@@ -5,10 +5,11 @@ bastion_IP = 51.250.82.223
 
 someinternalhost_IP = 10.128.0.29
 
-# Bastion. Additional homework
+#Bastion. Additional homework
 
 alias ssh_someinternalhost='ssh -i ~/.ssh/appuser -A appuser@<bastion_public_ip> ssh <someinternalhost_private_ip>'
 
+#Deploy test app
 
 testapp_IP = 51.250.76.221
 
@@ -20,4 +21,10 @@ sh reddit-app2.sh
 
 #Packer
 
-#Create template in format JSON. Create VM from template in Yandex Cloud.
+#Create template ubuntu16.json with sections builders, provisioners, and template variables.json.example with user variables.
+
+#Create machine image:
+
+#packer build -var-file=<path-to-variables.json.example> ubuntu16.json
+
+#Create VM from machine image.
