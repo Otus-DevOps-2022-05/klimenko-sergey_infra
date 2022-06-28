@@ -5,6 +5,11 @@ bastion_IP = 51.250.82.223
 
 someinternalhost_IP = 10.128.0.29
 
+# Bastion. Additional homework
+
+alias ssh_someinternalhost='ssh -i ~/.ssh/appuser -A appuser@<bastion_public_ip> ssh <someinternalhost_private_ip>'
+
+
 testapp_IP = 51.250.76.221
 
 testapp_port = 9292
