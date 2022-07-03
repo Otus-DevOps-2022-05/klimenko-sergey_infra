@@ -11,6 +11,7 @@ someinternalhost_IP = 10.128.0.29
 ```
 alias ssh_someinternalhost='ssh -i ~/.ssh/appuser -A appuser@<bastion_public_ip> ssh <someinternalhost_private_ip>'
 ```
+[Pritunl with Let's Encrypt certificate.](https://51.250.86.169.sslip.io)
 
 ### Deploy test app
 ```
@@ -29,3 +30,15 @@ sh reddit-app2.sh
 packer build -var-file=<path-to-variables.json.example> ubuntu16.json
 ```
  * Create VM from machine image.
+### Terraform:
+ * Download plugin for Yandex v.0.35
+ * Run command
+````
+terraform init -plugin-dir=<path-to-plugin>
+````
+ * Create templates main.tf, outputs.tf and input variables variables.tf
+ * Create instance:
+```
+terraform plan
+terraform apply
+```
