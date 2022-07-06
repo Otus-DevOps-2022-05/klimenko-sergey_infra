@@ -42,3 +42,15 @@ terraform init -plugin-dir=<path-to-plugin>
 terraform plan
 terraform apply
 ```
+### Terraform-2
+ * Create 2 pcs machine images
+ * Create modules "app", "db"
+ * Create Terraform templates in folders "stage", "prod"
+ * Create VM's. For this in each folder to enter commands:
+```
+terraform get
+terraform init -plugin-dir=/home/user/klimenko-sergey_infra/terraform/plugin/
+terraform validate
+terraform plan
+terraform apply -auto-approve
+```
