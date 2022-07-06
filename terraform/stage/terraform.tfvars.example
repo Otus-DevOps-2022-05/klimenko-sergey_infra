@@ -1,0 +1,7 @@
+cloud_id                 = "111111111111"
+folder_id                = "2222222222222222"
+zone                     = "333333333333333"
+image_id                 = "444444444444444444444"
+public_key_path          = "~/.ssh/appuser.pub"
+subnet_id                = "555555555555555"
+service_account_key_file = "~/terraform-svc-acc-key.json"
