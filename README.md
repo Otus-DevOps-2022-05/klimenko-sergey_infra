@@ -45,8 +45,8 @@ terraform apply
 ### Terraform-2
  * Create 2 pcs machine images
  * Create modules "app", "db"
- * Create Terraform templates in folders "stage", "prod"
- * Create VM's. For this in each folder to enter commands:
+ * Create Terraform templates in directories "stage", "prod"
+ * Create VM's. For this in each directory to enter commands:
 ```
 terraform get
 terraform init -plugin-dir=/home/user/klimenko-sergey_infra/terraform/plugin/
