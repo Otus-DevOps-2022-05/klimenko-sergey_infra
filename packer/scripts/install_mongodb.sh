@@ -9,6 +9,7 @@ sudo apt update
 # sudo systemctl status mongod
 ###
 
+sleep 15
 sudo apt install -y mongodb
 sudo systemctl start mongodb
 sudo systemctl enable mongodb

@@ -24,21 +24,46 @@ sh reddit-app2.sh
 ```
 ### Packer:
 
- * Create template ubuntu16.json with sections builders, provisioners, and template variables.json.example with user variables.
+ * Create template ubuntu16.json with sections builders, provisioners and template variables.json.example with user variables.
  * Create machine image:
 ```
 packer build -var-file=<path-to-variables.json.example> ubuntu16.json
 ```
  * Create VM from machine image.
+
+### Packer. Additional homework
+ * Create additional scripts deploy.sh, puma-service.sh
+ * Create template immutable.json with sections builders, provisioners
+ * Create machine image:
+```
+packer build immutable.json
+```
+ * Create script for deploy VM with autostart web application
+ * Deploy VM with autostart web application:
+```
+sh sh ../configscripts/create-reddit-vm.sh
+```
 ### Terraform:
  * Download plugin for Yandex v.0.35
  * Run command
-````
+```
 terraform init -plugin-dir=<path-to-plugin>
-````
+```
  * Create templates main.tf, outputs.tf and input variables variables.tf
  * Create instance:
 ```
 terraform plan
 terraform apply
+```
+### Terraform-2
+ * Create 2 pcs machine images
+ * Create modules "app", "db"
+ * Create Terraform templates in directories "stage", "prod"
+ * Create VM's. For this in each directory to enter commands:
+```
+terraform get
+terraform init -plugin-dir=/home/user/klimenko-sergey_infra/terraform/plugin/
+terraform validate
+terraform plan
+terraform apply -auto-approve
 ```

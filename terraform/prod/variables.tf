@@ -24,8 +24,19 @@ variable service_account_key_file {
 }
 variable private_key_path {
   description = "/home/user/.ssh/ubuntu"
+  default     = "/home/user/.ssh/ubuntu"
 }
 variable zone_instance {
   description = "Zone of compute instance"
   default     = "ru-central1-a"
+}
+variable app_disk_image {
+  description = "Disk image for reddit app"
+  # default = "reddit-app-base"
+  default = "fd8q5kl6bhtr0ijg625c"
+}
+variable db_disk_image {
+  description = "Disk image for reddit db"
+  # default = "reddit-db-base"
+  default = "fd8v0h0pbb495jgfbqbm"
 }
