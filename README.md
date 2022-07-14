@@ -69,7 +69,7 @@ terraform apply -auto-approve
 ```
 ### Ansible-1:
  * Familiarity with the tool:
-  [*] Install Ansible:
+  [ * ] Install Ansible:
       ```
       pip install -r ansible>=2.4
       ```
