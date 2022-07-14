@@ -79,7 +79,7 @@ terraform apply -auto-approve
       ```
       ansible app -m shell -a 'ruby -v; bundler -v'
       ```
-  [*] Create playbook clone.yaml
+  [*] Create playbook clone.yml
   [*] Execution of commands:
       ```
       ansible-playbook clone.yml
