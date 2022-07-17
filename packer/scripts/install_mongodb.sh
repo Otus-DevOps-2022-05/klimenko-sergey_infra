@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo apt update
+sleep 15
 
 ### Not work in Russia:
 # sudo apt-get install -y mongodb-org
