@@ -34,7 +34,7 @@ packer build -var-file=<path-to-variables.json.example> ubuntu16.json
 ### Packer. Additional homework
  * Create additional scripts deploy.sh, puma-service.sh
  * Create template immutable.json with sections builders, provisioners
- * Create machine image:
+ * Create machine bake-image:
 ```
 packer build immutable.json
 ```
@@ -69,18 +69,19 @@ terraform apply -auto-approve
 ```
 ### Ansible-1:
  * Familiarity with the tool:
-   ** Install Ansible:
+  * Install Ansible:
       ```
       pip install -r ansible>=2.4
       ```
-  [*] Create inventory files: inventory, inventory.yaml
-  [*] Create config file ansible.cfg
-  [*] Remote management of nodes using modules ping, uptime, command, shell, git, etc. Example:
+  * Create inventory files: inventory, inventory.yaml
+  * Create config file ansible.cfg
+  * Remote management of nodes using modules ping, uptime, command, shell, git, etc. Example:
       ```
       ansible app -m shell -a 'ruby -v; bundler -v'
       ```
-  [*] Create playbook clone.yml
-  [*] Execution of commands:
+  * Create playbook clone.yml
+  * Execution of commands:
       ```
       ansible-playbook clone.yml
       ```
+### Ansible-2:

@@ -6,7 +6,7 @@ variable public_key_path {
 variable db_disk_image {
   description = "Disk image for reddit db"
   # default = "reddit-db-base"
-  default = "fd8v0h0pbb495jgfbqbm"
+  default = "fd89u3p3n32t97ticoh8"
 }
 variable subnet_id {
   description = "Subnets for modules"
