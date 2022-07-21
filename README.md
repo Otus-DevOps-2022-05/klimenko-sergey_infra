@@ -69,21 +69,21 @@ terraform apply -auto-approve
 ```
 ### Ansible-1:
  * Familiarity with the tool:
-  * Install Ansible:
-      ```
-      pip install -r ansible>=2.4
-      ```
-  * Create inventory files: inventory, inventory.yaml
-  * Create config file ansible.cfg
-  * Remote management of nodes using modules ping, uptime, command, shell, git, etc. Example:
-      ```
-      ansible app -m shell -a 'ruby -v; bundler -v'
-      ```
-  * Create playbook clone.yml
-  * Execution of commands:
-      ```
-      ansible-playbook clone.yml
-      ```
+   * Install Ansible:
+     ```
+     pip install -r ansible>=2.4
+     ```
+   * Create inventory files: inventory, inventory.yaml
+   * Create config file ansible.cfg
+   * Remote management of nodes using modules ping, uptime, command, shell, git, etc. Example:
+     ```
+     ansible app -m shell -a 'ruby -v; bundler -v'
+     ```
+   * Create playbook clone.yml
+   * Execution of commands:
+     ```
+     ansible-playbook clone.yml
+     ```
 ### Ansible-2:
  * One playbook with one play - reddit_app_one_play.yml
  * Config template mongod.conf.j2
