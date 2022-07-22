@@ -1,6 +1,6 @@
 {
     "folder_id": "12345",
     "source_image_family": "ubuntu-1604-lts",
-    "service_account_key_file": "./key.json"
+    "service_account_key_file": "./key.json",
     "subnet_id": "3444444444442222222"
 }
