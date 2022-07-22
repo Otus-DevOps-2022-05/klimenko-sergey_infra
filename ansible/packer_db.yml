@@ -1,0 +1,9 @@
+---
+- name: Configure App
+  hosts: all
+  become: true
+  tasks:
+  - name: Install Ruby and Bundler
+    ansible.builtin.apt:
+      name: mongodb
+      state: present
