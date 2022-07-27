@@ -106,3 +106,24 @@ terraform apply -auto-approve
      ```
      ansible-playbook site.yml
      ```
+### Ansible-3:
+ * Familiarity with Ansible Galaxy and create structure of roles:
+   ```
+   ansible-galaxy init app
+   ansible-galaxy init db
+   ```
+ * Create roles for DB and web application
+ * Adapt Ansible configurations for using roles
+ * Create environments stage and prod in directory ansible
+ * Using Community-roles jdauphant.nginx for access web application via port 80
+ * Work with Ansible Vault and add creating users in playbooks
+ * Start the project:
+   * Execution of commands in directory terraform/stage:
+     ```
+     terraform destroy -auto-approve
+     terraform apply -auto-approve
+     ```
+   * Execution of commands in directory ansible:
+     ```
+     ansible-playbook playbooks/site.yml
+     ```
