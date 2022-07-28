@@ -34,7 +34,7 @@ packer build -var-file=<path-to-variables.json.example> ubuntu16.json
 ### Packer. Additional homework
  * Create additional scripts deploy.sh, puma-service.sh
  * Create template immutable.json with sections builders, provisioners
- * Create machine image:
+ * Create machine bake-image:
 ```
 packer build immutable.json
 ```
@@ -69,18 +69,40 @@ terraform apply -auto-approve
 ```
 ### Ansible-1:
  * Familiarity with the tool:
-   ** Install Ansible:
-      ```
-      pip install -r ansible>=2.4
-      ```
-  [*] Create inventory files: inventory, inventory.yaml
-  [*] Create config file ansible.cfg
-  [*] Remote management of nodes using modules ping, uptime, command, shell, git, etc. Example:
-      ```
-      ansible app -m shell -a 'ruby -v; bundler -v'
-      ```
-  [*] Create playbook clone.yml
-  [*] Execution of commands:
-      ```
-      ansible-playbook clone.yml
-      ```
+   * Install Ansible:
+     ```
+     pip install -r ansible>=2.4
+     ```
+   * Create inventory files: inventory, inventory.yaml
+   * Create config file ansible.cfg
+   * Remote management of nodes using modules ping, uptime, command, shell, git, etc. Example:
+     ```
+     ansible app -m shell -a 'ruby -v; bundler -v'
+     ```
+   * Create playbook clone.yml
+   * Execution of commands:
+     ```
+     ansible-playbook clone.yml
+     ```
+### Ansible-2:
+ * One playbook with one play - reddit_app_one_play.yml
+ * Config template mongod.conf.j2
+ * Instance and deploy web application
+ * One playbook with multiple plays - reddit_app_multiple_plays.yml
+ * Multiple playbooks: app.yml, db.yml, deploy.yml, site.yml
+ * Playbooks for Packer: packer_app.yml, packer_db.yml
+ * Change section provisioners in Packer templates: packer/app.json, packer/db.json
+ * Start the project:
+   * Execution of commands in directory packer:
+     ```
+     packer build -var-file=variables.json app.json
+     packer build -var-file=variables.json db.json
+     ```
+   * Execution of command in directory terraform/stage:
+     ```
+     terraform apply -auto-approve
+     ```
+   * Execution of command in directory ansible:
+     ```
+     ansible-playbook site.yml
+     ```
