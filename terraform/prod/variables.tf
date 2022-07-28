@@ -33,10 +33,10 @@ variable zone_instance {
 variable app_disk_image {
   description = "Disk image for reddit app"
   # default = "reddit-app-base"
-  default = "fd8q5kl6bhtr0ijg625c"
+  default = "fd8139f53dovgn4nhs9k"
 }
 variable db_disk_image {
   description = "Disk image for reddit db"
   # default = "reddit-db-base"
-  default = "fd8v0h0pbb495jgfbqbm"
+  default = "fd89u3p3n32t97ticoh8"
 }
