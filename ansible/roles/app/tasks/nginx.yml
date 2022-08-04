@@ -1,0 +1,20 @@
+---
+- name: Upgrade the OS (apt-get dist-upgrade)
+  ansible.builtin.apt:
+    upgrade: dist
+- name: Wait for sudo
+  become: yes
+  shell:  while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+
+- name: apt update
+  ansible.builtin.apt:
+    update_cache: yes
+- name: Wait for sudo
+  become: yes
+  shell:  while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+
+- name: Install NGINX
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+  tags: nginx

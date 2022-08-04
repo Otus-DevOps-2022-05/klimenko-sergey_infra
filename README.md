@@ -123,7 +123,43 @@ terraform apply -auto-approve
      terraform destroy -auto-approve
      terraform apply -auto-approve
      ```
-   * Execution of commands in directory ansible:
+   * Execution of command in directory ansible:
      ```
      ansible-playbook playbooks/site.yml
+     ```
+### Ansible-4:
+ * Install Vagrant
+ * Create Vagrantfile with local Infrastructure for definition 2 pcs VM
+ * Create 2 pcs VM:
+   ```
+   vagrant up
+   vagrant box list
+   vagrant status
+   ```
+ * Completion roles app and db, then provisioning:
+   ```
+   vagrant provision dbserver
+   vagrant provision appserver
+   ```
+ * Using Community-roles jdauphant.nginx for access web application via port 80
+ * Testing roles:
+    * Install Molecule
+    * Create tests for role db:
+      ```
+      molecule init scenario --role-name default -r db -d vagrant
+      ```
+    * Create VM for test:
+      ```
+      molecule create
+      molecule list
+      ```
+    * Run tests:
+      ```
+      molecule verify
+      ```
+    * Redacted playbooks packer_db.yml, packer_app.yml for called roles db, app.
+    * Execution of commands in directory packer:
+     ```
+     packer build -var-file=variables.json app.json
+     packer build -var-file=variables.json db.json
      ```
