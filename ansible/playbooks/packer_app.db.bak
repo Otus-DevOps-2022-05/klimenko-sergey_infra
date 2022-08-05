@@ -1,0 +1,9 @@
+---
+- name: Configure DB
+  hosts: all
+  become: true
+  tasks:
+  - name: Install MongoDB
+    ansible.builtin.apt:
+      name: mongodb
+      state: present

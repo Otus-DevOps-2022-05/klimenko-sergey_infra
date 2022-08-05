@@ -1,0 +1,9 @@
+---
+- name: Configure NGINX
+  hosts: app
+  become: true
+  tasks:
+  - name: Install NGINX
+    ansible.builtin.apt:
+      name: nginx
+      state: present

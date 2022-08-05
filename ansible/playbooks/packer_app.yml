@@ -2,18 +2,5 @@
 - name: Configure App
   hosts: all
   become: true
-  tasks:
-  - name: apt update
-    ansible.builtin.apt:
-      update_cache: yes
-  - name: Wait for sudo
-    become: yes
-    shell:  while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
-  - name: Install Ruby and Bundler
-    ansible.builtin.apt:
-      name: "{{ item }}"
-      state: present
-    with_items:
-      - ruby-full
-      - ruby-bundler
-      - build-essential
+  roles:
+    - app
