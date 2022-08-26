@@ -159,7 +159,7 @@ terraform apply -auto-approve
       ```
     * Redacted playbooks packer_db.yml, packer_app.yml for called roles db, app.
     * Execution of commands in directory packer:
-     ```
-     packer build -var-file=variables.json app.json
-     packer build -var-file=variables.json db.json
-     ```
+      ```
+      packer build -var-file=variables.json app.json
+      packer build -var-file=variables.json db.json
+      ```
