@@ -1,0 +1,101 @@
+---
+- hosts: all
+  become: true
+  vars:
+    container_count: 1
+    default_container_name: gitlab
+    default_container_image: gitlab/gitlab-ce:latest
+    # default_container_command: sleep 1d
+    gitlab_hostname: 'gitlab.example.com'
+    gitlab_external_url: external_url 'http://62.84.119.226'
+    gitlab_root_mail: root@root.local
+    gitlab_root_password: VyoXH14zRVchjY57xcLk
+
+  tasks:
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - /srv/gitlab/config
+        - /srv/gitlab/data
+        - /srv/gitlab/logs
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+          - gnupg
+          - lsb-release
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+        state: present
+        update_cache: true
+
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+
+    - name: Start and enable docker daemon
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Start and enable containerd daemon
+      service:
+        name: containerd
+        state: started
+        enabled: yes
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Pull default Docker image
+      community.docker.docker_image:
+        name: "{{ default_container_image }}"
+        source: pull
+
+    - name: Create default containers
+      community.docker.docker_container:
+        name: "{{ default_container_name }}{{ item }}"
+        image: "{{ default_container_image }}"
+        restart_policy: always
+        hostname: '{{ gitlab_hostname }}'
+        # command: "{{ default_container_command }}"
+        state: started
+        env:
+            GITLAB_OMNIBUS_CONFIG="{{ gitlab_external_url }}"
+            GITLAB_ROOT_EMAIL="{{ gitlab_root_mail }}"
+            GITLAB_ROOT_PASSWORD="{{ gitlab_root_password }}"
+        ports:
+          - '80:80'
+          - '443:443'
+          - '2222:22'
+        volumes:
+          - '/srv/gitlab/config:/etc/gitlab'
+          - '/srv/gitlab/logs:/var/log/gitlab'
+          - '/srv/gitlab/data:/var/opt/gitlab'
+      with_sequence: count={{ container_count }}
