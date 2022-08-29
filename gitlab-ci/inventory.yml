@@ -3,4 +3,4 @@ all:
     gitlab:
       hosts:
         gitlab-ci-vm:
-          ansible_host: 62.84.119.226
+          ansible_host: 84.252.131.47

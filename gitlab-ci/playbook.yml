@@ -7,7 +7,7 @@
     default_container_image: gitlab/gitlab-ce:latest
     # default_container_command: sleep 1d
     gitlab_hostname: 'gitlab.example.com'
-    gitlab_external_url: external_url 'http://62.84.119.226'
+    gitlab_external_url: external_url 'http://84.252.131.47'
     gitlab_root_mail: root@root.local
     gitlab_root_password: VyoXH14zRVchjY57xcLk
 
