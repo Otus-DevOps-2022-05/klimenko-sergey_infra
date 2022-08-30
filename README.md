@@ -159,7 +159,53 @@ terraform apply -auto-approve
       ```
     * Redacted playbooks packer_db.yml, packer_app.yml for called roles db, app.
     * Execution of commands in directory packer:
-     ```
-     packer build -var-file=variables.json app.json
-     packer build -var-file=variables.json db.json
-     ```
+      ```
+      packer build -var-file=variables.json app.json
+      packer build -var-file=variables.json db.json
+      ```
+### Gitlab
+ * Create VM in Yandex Cloud:
+   ```
+   yc compute instance create /
+      --name gitlab-ci-vm /
+      --cores=2 /
+      --memory=6GB /
+      --zone ru-central1-a /
+      --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 /
+      --create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804-lts,size=50 /
+      --ssh-key ~/.ssh/id_rsa.pub
+   ```
+ * Install Gitlab CI:
+    * Write ansible.cfg, inventory.yml, playbook.yml
+    * Run command:
+      ```
+      ansible-playbook playbook.yml
+      ```
+ * Run docker container with gitlab-runner:
+   ```
+   sudo docker run -d --name gitlab-runner /
+      --restart always -v /srv/gitlabrunner/config:/etc/gitlab-runner /
+      -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:latest
+   ```
+ * Registration gitlab-runner:
+   ```
+   sudo docker exec -it gitlab-runner gitlab-runner register \
+      --url http://<Public_IP_VM_with_Gitlab>/ \
+      --non-interactive \
+      --locked=false \
+      --name DockerRunner \
+      --executor docker \
+      --docker-image alpine:latest \
+      --registration-token <Token> \
+      --tag-list "linux,xenial,ubuntu,docker" \
+      --run-untagged
+   ```
+ * Work in Gitlab:
+    * Create group
+    * Create project
+    * Create CI/CD Pipeline in file .gitlab-ci.yml
+    * Add Reddit in project
+    * Add environment dev
+    * Add stages: stage, production
+    * Add git tag for mark code
+    * Add dinamic environment and create 2 new branches
