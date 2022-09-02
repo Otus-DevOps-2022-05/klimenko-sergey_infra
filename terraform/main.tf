@@ -16,7 +16,8 @@ provider "yandex" {
 }
 
 resource "yandex_compute_instance" "app" {
-  name = "reddit-app-t7m"
+  count = 2
+  name = "reddit-app-t7m-${count.index}"
   zone = var.zone_instance
 
   provisioner "file" {
@@ -55,10 +56,24 @@ resource "yandex_compute_instance" "app" {
 
   connection {
     type  = "ssh"
-    host  = yandex_compute_instance.app.network_interface.0.nat_ip_address
+    # host  = yandex_compute_instance.app.network_interface.0.nat_ip_address
+    host  = self.network_interface[0].nat_ip_address
     user  = "ubuntu"
     agent = false
     # путь до приватного ключа
     private_key = "${file(var.private_key_path)}"
+  }
+}
+
+resource "yandex_lb_target_group" "tg-app" {
+  name      = "my-target-group"
+  region_id = var.region_id
+
+  dynamic "target" {
+    for_each   = yandex_compute_instance.app.*.network_interface.0.ip_address
+    content {
+      subnet_id = var.subnet_id
+      address = target.value
+    }
   }
 }
