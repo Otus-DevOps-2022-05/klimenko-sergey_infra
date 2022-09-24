@@ -1,0 +1,142 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:3.2
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    volumes:
+      - post_db:/data/db
+    networks:
+        back_net:
+          aliases:
+            - post_db
+            - comment_db
+  ui:
+    build: ../src/ui
+    image: ${USERNAME}/ui:${VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    ports:
+      - ${PORT_OF_SERVICE_INSIDE_CONTAINERS}:${PORT_OF_SERVICE_IN_HOSTS}/${NET_PROTOCOL}
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.ui
+    networks:
+        front_net:
+          aliases:
+            - ui
+  post:
+    build: ../src/post-py
+    image: ${USERNAME}/post:${VERSION}
+    environment:
+      - POST_DATABASE_HOST=post_db
+      - POST_DATABASE=posts
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    depends_on:
+      - post_db
+    ports:
+      - "5000:5000"
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.post
+    networks:
+        front_net:
+          aliases:
+            - post_front
+        back_net:
+          aliases:
+            - post_back
+  comment:
+    build: ../src/comment
+    image: ${USERNAME}/comment:${VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    networks:
+        front_net:
+          aliases:
+            - comment_front
+        back_net:
+          aliases:
+            - comment_back
+
+  prometheus:
+    image: ${USERNAME}/prometheus
+    networks:
+        front_net:
+          aliases:
+            - prometheus_front
+        back_net:
+          aliases:
+            - prometheus_back
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command: # Передаем доп параметры в командной строке
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d' # Задаем время хранения метрик в 1 день
+
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    networks:
+        back_net:
+          aliases:
+            - node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+
+  mongodb-exporter:
+    image:  percona/mongodb_exporter:0.34.0
+    user: '65535'
+    networks:
+        back_net:
+          aliases:
+            - mongodb-exporter
+    volumes:
+      - post_db:/data/db:ro
+    command:
+      - '--mongodb.uri=mongodb://post_db:27017'
+
+  blackbox-exporter:
+    image:  prom/blackbox-exporter:v0.22.0
+    user: root
+    networks:
+        back_net:
+          aliases:
+            - blackbox-exporter_back
+        front_net:
+          aliases:
+            - blackbox-exporter_front
+    volumes:
+      - blackbox_data:/config
+    # command:
+      # - '--config.file=/config/blackbox.yml'
+
+volumes:
+  post_db:
+  prometheus_data:
+  blackbox_data:
+
+networks:
+  back_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.2.0/24"
+  front_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.1.0/24"
